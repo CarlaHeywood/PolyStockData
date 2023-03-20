@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+ {% comment %} Specific CSS goes HERE {% endcomment %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container"> 
+    <h1> Homepage - Hello World! </h1>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <!-- <li><a href="/symbol">Symbol</a></li> -->
+        <!-- <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li> -->
+        <li><a class="bg-warning" href="{% url 'load_polygondata' %}">Update Stock Data (Not Working)</a></li>
+        <li><form method="POST" action="{% url 'load_polygondata_script' %}">{% csrf_token %}
+            <button class="bg-warning" type="submit">Update Stock Data</button></form></li>
+            
+    </ul>
+</div>
+{% endblock content %}

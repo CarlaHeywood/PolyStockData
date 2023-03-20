@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ stock.symbol }} Details
+{% endblock %}
+
+ {% comment %} Specific CSS goes HERE {% endcomment %}
+ {% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container"> 
+    <div class="row">
+        <div class="col">
+            <strong style="font-size: 64px;"><p class="mb-0">{{ stock.symbol }}</p></strong>
+            <strong style="font-size: 20px;"><p>{{ stock.stock_name }}</p></strong>
+        </div>
+        <div class="col text-end">
+            <a href="{{ stock.weburl }}" target="_blank"><img height="50px" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"'/></a>
+        </div>
+    </div>
+    <div class="row"> 
+        <p>{{ stock.description }}</p>
+    </div>
+
+
+    <div class="container text-center">
+        <div class="row row-cols-7 bg-black text-white">
+            <div class="col-lg">Price $</div>
+            <div class="col-lg">Previous Date</div>
+            <div class="col-lg">Dividend $</div>
+            <div class="col-lg">Freq.</div>
+            <div class="col-lg">Pay Date</div>
+            <div class="col-lg">Declaration</div>
+            <div class="col-lg">Ex Date</div>
+        </div>
+        <div class="row row-cols-7">
+            <div class="col">{{ stock.closep }}</div>
+            <div class="col">{{ stock.previous_date }}</div>
+            <div class="col">{{ stock.cash_amount }}</div>
+            <div class="col">{{ stock.divfrequency }}</div>
+            <div class="col">{{ stock.pay_date }}</div>
+            <div class="col">{{ stock.declaration_date }}</div>
+            <div class="col">{{ stock.ex_dividend_date }}</div>
+        </div>
+    </div>
+    <div class="table-responsive"> 
+        <table class="table">
+            <tr class="bg-black text-white">
+                <strong>
+                <td class="col text-center">Price $</td>
+                <td class="col">Previous Date</td>
+                <td class="col text-center">Dividend $</td>
+                <td class="col text-center">Freq.</td>
+                <td class="col">Pay Date</td>
+                <td class="col">Declaration</td>
+                <td class="col">Ex Date</td>
+                </strong> 
+            </tr>
+            <tr>
+                <td class="text-center">{{ stock.closep }}</td>
+                <td>{{ stock.previous_date }}</td>
+                <td class="text-center">{{ stock.cash_amount }}</td>
+                <td class="text-center">{{ stock.divfrequency }}</td>
+                <td>{{ stock.pay_date }}</td>
+                <td>{{ stock.declaration_date }}</td>
+                <td>{{ stock.ex_dividend_date }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock content %}

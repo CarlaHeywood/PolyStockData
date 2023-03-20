@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+ {% comment %} Specific CSS goes HERE {% endcomment %}
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="container"> 
+    <h1>Dashboard</h1>
+    <div class="table-responsive">
+        <table class="table sortable">
+            <tr class="bg-black text-white">
+                <td class="col text-center"><b>Symbol</b></td>
+                <td class="col"><b>Price $</b></td>
+                <td class="col"><b>Previous Date</b></td>
+                <td class="col"><b>Dividend $</b></td>
+                <td class="col-1 text-center"><b>Freq.</b></td>
+                <td class="col"><b>Pay Date</b></td>
+                <td class="col"><b>Declaration</b></td>
+                <td class="col"><b>Ex Date</b></td>
+            </tr>
+            {% for stock in watchlist %}
+            <tr style="border: 1px;">
+                <td class="text-center"><a href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></td>
+                <td>{{ stock.closep }}</td>
+                <td>{{ stock.previous_date }}</td>
+                <td>{{ stock.cash_amount }}</td>
+                <td class="text-center">{{ stock.divfrequency }}</td>
+                <td>{{ stock.pay_date }}</td>
+                <td>{{ stock.declaration_date }}</td>
+                <td>{{ stock.ex_dividend_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

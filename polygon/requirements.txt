@@ -1,0 +1,7 @@
+polygon-api-client
+django
+django_table_sort
+django_mysql
+pandas
+requests
+datetime
