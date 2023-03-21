@@ -9,21 +9,72 @@
 
 {% block content %}
 <div class="container"> 
+    
     <div class="row">
+        <div class="col-4">
+            <div class="row d-flex">
+                <div class="col">
+                    <form action="{% url 'dashboard' %}" method="POST">
+                    {% csrf_token %}
+                        <div class="btn btn-primary" onclick="history.back()" value="Go Back">Back</div>
+                        <input class="btn btn-primary" type="submit" value="View All" />
+                    </form>
+                </div>
+                <div class="col justify-content-end">
+                    <strong style="font-size: 54px;"><p>{{ stock.symbol }}</p></strong>
+                </div>
+            </div>
+            <table class="table">
+                <tbody>
+                  <tr>
+                    <td>Previous Close</td>
+                    <td>{{ stock.closep }}</td>
+                  </tr>
+                  <tr>
+                    <td>Previous Date</td>
+                    <td>{{ stock.previous_date }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dividend($)</td>
+                    <td>{{ stock.cash_amount }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dividend Freq.</td>
+                    <td>{{ stock.divfrequency }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dividend Payout</td>
+                    <td>{{ stock.pay_date }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dividends Decl.</td>
+                    <td>{{ stock.declaration_date }}</td>
+                  </tr>
+                  <tr>
+                    <td>Prev. Dividend</td>
+                    <td>{{ stock.ex_dividend_date }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
         <div class="col">
-            <strong style="font-size: 64px;"><p class="mb-0">{{ stock.symbol }}</p></strong>
-            <strong style="font-size: 20px;"><p>{{ stock.stock_name }}</p></strong>
-        </div>
-        <div class="col text-end">
-            <a href="{{ stock.weburl }}" target="_blank"><img height="50px" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"'/></a>
+            <div class="row">
+                <div class="col-4">
+                    {% comment %} <strong style="font-size: 64px;"><p class="mb-0">{{ stock.symbol }}</p></strong> {% endcomment %}
+                    <strong style="font-size: 30px;"><p>{{ stock.stock_name }}</p></strong>
+                </div>
+                <div class="col text-end">
+                    <a href="{{ stock.weburl }}" target="_blank"><img height="50px" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"'/></a>
+                </div>
+            </div>
+            <p>{{ stock.description }}</p>
         </div>
     </div>
-    <div class="row"> 
-        <p>{{ stock.description }}</p>
-    </div>
+    
 
 
-    <div class="container text-center">
+
+    {% comment %} <div class="container text-center">
         <div class="row row-cols-7 bg-black text-white">
             <div class="col-lg">Price $</div>
             <div class="col-lg">Previous Date</div>
@@ -66,6 +117,6 @@
                 <td>{{ stock.ex_dividend_date }}</td>
             </tr>
         </table>
-    </div>
+    </div> {% endcomment %}
 </div>
 {% endblock content %}

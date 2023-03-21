@@ -56,21 +56,21 @@
                     Reverse for 'stockdetails' with keyword arguments '{'symbol': ''}' not found. 1 pattern(s) tried: ['(?P<symbol>[^/]+)/\\Z']
                     searchsymbol|join:symbol - didnt work
                 {% endcomment %}
-                <form  action="{% url 'stockdetails' symbol='UWMC' %}" method="POST" class="d-flex" >
-                {% csrf_token %}
-                    <input type="text"class="bg-warning" name="symbol" id="searchsymbol" class="form-control me-2"  placeholder="Search (Not Working)" aria-label="Search">
-                    <input class="btn btn-outline-success" type="submit" value="Submit">
+                <form action="{% url 'stockdetails' symbol=searchsymbol|default:'UWMC' %}" method="POST" class="d-flex">
+                    {% csrf_token %}
+                    <input type="text" name="searchsymbol" id="searchsymbol" class="form-control me-2" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Submit</button>
                 </form>
             </div>
         </div>
     </nav>
     {% comment %} Back & Home Button {% endcomment %}
-    <div class="">
-        <form class="m-3" action="{% url 'home' %}" method="POST">
+    <div class="mt-5">
+        {% comment %} <form class="m-3" action="{% url 'home' %}" method="POST">
         {% csrf_token %}
             <div class="btn btn-primary" onclick="history.back()" value="Go Back">Go Back</div>
             <input class="btn btn-primary" type="submit" value="Home" />
-        </form>
+        </form> {% endcomment %}
 
         {% block content %}{% endblock content %}
     </div>
@@ -81,5 +81,12 @@
         <a href="/">Home</a> | <a href="/dashboard">Dashboard</a> | <a href="/profile">Profile</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    {% comment %} Initialize Tooltips {% endcomment %}
+    <script> 
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
 </body>
 </html>

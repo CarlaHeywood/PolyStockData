@@ -8,7 +8,7 @@ FIXED IT!! THe stock data is storing in the database properly now.
 original function to call Polygon API has not worked since 5pm today. It's now 10pm. Not sure how it broke
 
 """
-import os, requests, json, datetime, time
+import os, requests, json, datetime, time, random
 from datetime import datetime, date, timedelta
 
 # import sqlite3 as sql
@@ -24,11 +24,11 @@ import subprocess
 
 
 # api key from config 
-# from apikey import *
+from apikey import *
 # OR just assign your API as a string variable
-polygonAPIkey = '4US5e1obpxTqaWTTG6c6qGiHeK6O6TG3'
+# polygonAPIkey = 'APIKEYAPIKEY'
 
-keystr = '?apiKey=4US5e1obpxTqaWTTG6c6qGiHeK6O6TG3'
+# keystr = '?apiKey=APIKEYAPIKEY'
 
 
 # ImproperlyConfigured( django.core.exceptions.ImproperlyConfigured: Requested setting USE_I18N
@@ -36,25 +36,32 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'account.settings')
 
 # import modules
 
-headers = {}      
+headers = {}     
 params = {}
 
 holidays = ["2023-01-16","2023-02-20","2023-04-07","2023-05-29","2023-06-19","2023-07-03","2023-07-04","2023-09-04","2023-11-23","2023-11-24","2023-12-25","2024-01-01","2023-01-16","2023-02-20","2023-04-07","2023-05-29","2023-06-19","2023-07-03","2023-07-04","2023-09-04","2023-11-23","2023-11-24","2023-12-25","2024-01-01"]
+watchlist = ['AAPL','ADP','AIG','AVGO','BAC','BBY','CL','COST','ESS','GE','GS',
+                 'HD','HPQ','IBM','INTC','JEPI','JNJ','JPM','KO','LOW','MCD','MMM','MSFT',
+                 'NEE','NVDA','O','PEP','PG','QCOM','QYLD','SCHD','SPGI','SPY','SYY','TGT',
+                 'UWMC','VFC','VOO','VTI','VZ','WFC','WMT','XOM']
 
 # ------- START Render Templates to Pages --------    
 def home(request):
     """
-    Render Home page
+        Render Home page
     """
     print("Home")
-    return render(request, 'home.html')
+    data = get_allstocks_db()
+    stocks = random.sample(sorted(data, key=lambda x: x.symbol), 3)
+    # print(stocks)
+    return render(request, 'home.html', {'stocks':stocks})
 
 def dashboard(request):
     """
-    Render Dashboard page
+        Render Dashboard page
     """
     print("Dashboard")
-    data = Stock.objects.all()
+    data = get_allstocks_db()
     if data == '':
         print("No Data Found in Database.")
         data = ['AAPL','UMWC','JEPI', 'PG','O']
@@ -63,72 +70,64 @@ def dashboard(request):
 
 def profile(request):
     """
-    Render Profile page
+        Render Profile page
     """
     users = User()
     print("Profile")
     return render(request, 'profile.html', {'users':users})
 
+# def stockdetails(request, symbol=None):
+#     """
+#         Render stockdetails page for given stock symbol. 
+#         If not found, shows what symbol it was looking for
+#     """
+#     if request.method == 'POST':
+#         symbol = request.POST.get('searchsymbol', symbol)
+#         print("Search Symbol: ", symbol)
+#     if symbol:
+#         if symbol in watchlist_from_db():
+#             print("stockdetails: Found - ",symbol)
+#             return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol)})
+#         else:
+#             print("stockdetails: Not Found - ", symbol)
+#             return home(request)
+#     else:
+#         print("stockdetails: No Symbol")
+#         return home(request)
+
+
+def stockdetails(request,symbol):
+    """
+        Render individual Stock page
+    """
+    print("Loading stockdetails...")
+    print(symbol)
+
+    if request.method == 'POST': # SEARCH
+        symbol = request.POST.get('searchsymbol', symbol)
+        print(symbol)
+        return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol)})
+    
+    return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol)})
+
 # ------- END Render Templates to Pages ---------
 
-def load_polygondata_script():
-    """
-    Attempting subprocess to update database from separate file
-    """
-    script_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'scripts', 'addtodb.py')
-    subprocess.call(['python', script_path])
-    print(HttpResponse('Updated Database successfully!'))
-    return redirect('home')
 
-def stockdetails(request, symbol=None):
-    """
-    Returns details for stock symbol. If not found, shows what it was looking for
-    """
-    if request.method == 'POST':
-        symbol = request.POST.get('searchsymbol', symbol)
-        print("Search Symbol: ", symbol)
-        
-    if symbol:
-        if symbol in watchlist_from_db():
-            print("stockdetails: Found - ",symbol)
-            # Works for Dashboard & Stock Details but Load_Stockdata not working
-            return render(request, 'stockdetails.html', {'stock': get_stockdetails(symbol)})
-        else:
-            print("stockdetails: Not Found - ", symbol)
-            return home(request)
-    else:
-        print("stockdetails: No Symbol")
-        return home(request)
-
-
-def get_stockdata_polygon(request, symbol):
-    """
-    Attempt to update database with fresh stock details
-    """
-    print("Made it: load_stockdata_polygon")
-    # data = call_polygondata()
-    # return render(request, 'load_stockdata.html', {'watchlist':data})
-    return render(request, 'home.html')
-    
-
-# # ------- START Pologon API calls ---------
+# ------- START Pologon API calls ---------
 
 # https://stackoverflow.com/questions/42037593/third-party-api-integration-in-python-django
-def load_polygondata():
+def loadpolygondata(request):
     """
-    Update Database by calling polygon API (NOT WORKING PROPERLY)
+        Creates new Database records by calling polygon API.
+        Need to check for duplicates to simply update existing records.
     """
-    print("made it : load_polygondata")
-    watchlist = ['AAPL','ADP','AIG','AVGO','BAC','BBY','CL','COST','ESS','GE','GS',
-                 'HD','HPQ','IBM','INTC','JEPI','JNJ','JPM','KO','LOW','MCD','MMM','MSFT',
-                 'NEE','NVDA','O','PEP','PG','QCOM','QYLD','SCHD','SPGI','SPY','SYY','TGT',
-                 'UWMC','VFC','VOO','VTI','VZ','WFC','WMT','XOM']
+    print("Fetching Polygon stock data....")
 
     with requests.Session() as s:
         for ticker in watchlist:
             # stock = Stock(symbol=ticker)
             # 
-            # STOCK DETAILS V3
+            # STOCK DETAILS V3 
             # 
             print("StockDetailsV3 Loading... // ", ticker)
             url4 = str("https://api.polygon.io/v3/reference/tickers/" + 
@@ -192,7 +191,7 @@ def load_polygondata():
                 if r3.status_code == 200:
                     for price in previousclose['results']:
                         # print(price)
-                        previous_date = datetime.datetime.fromtimestamp(price['t']/1000).date()
+                        previous_date = datetime.fromtimestamp(price['t']/1000).date()
                         closep = price['c']
                         print("PreviousClose Complete!")
 
@@ -218,7 +217,7 @@ def load_polygondata():
                     if r2.status_code == 200:
                         print("Dividends Complete!")
                         for stockd in dividends['results']: # Shows last 10 dividend payouts
-                            stock = Stock.objects.create(symbol = stockd['ticker'],
+                            stock = Stock(symbol = stockd['ticker'],
                                                 stock_name = stockdetailsv3['results']['name'],
                                                 stock_type = stockdetailsv3['results']['type'],
                                                 weburl = weburl,
@@ -237,6 +236,17 @@ def load_polygondata():
                             # " | PD: " + str(pay_date) + " | ExD: " + str(ex_dividend_date))
                             print(stock)
         print("Complete!")
-        return redirect('home')
+        return render(request, 'home.html')
+
+def fetch_ALL_polystockdata(request):
+    """
+        Update database by deleting all records then 
+        fetch updated stock details from Polygon API
+
+        Delete all then Create new records 
+    """
+    Stock.objects.all().delete()
+
+
 
 # ------- END Pologon API calls ---------

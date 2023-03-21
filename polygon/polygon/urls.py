@@ -24,8 +24,7 @@ urlpatterns = [
     path('', home, name="home"),
     path('dashboard/', dashboard, name="dashboard"),
     path('profile/', profile, name="profile"),
+    path('loadpolygondata/', loadpolygondata, name="loadpolygondata"),
+    # URLs with variables MUST go last
     path('<str:symbol>/', stockdetails, name="stockdetails"),
-    path('', stockdetails, name="stockdetails_default"),
-    path('load_polygondata/', load_polygondata, name="load_polygondata"),
-    path('load_polygondata_script/', load_polygondata_script, name="load_polygondata_script")
 ]

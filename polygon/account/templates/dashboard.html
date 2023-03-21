@@ -9,7 +9,17 @@
 
 {% block content %}
 <div class="container"> 
-    <h1>Dashboard</h1>
+    <div class="row">
+        <div class="col">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <a class="btn btn-primary m-3 me-0" href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
+                data-bs-placement="bottom" 
+                data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
+                Update Database <i class="bi bi-arrow-clockwise "></i> </a>
+        </div>
+    </div>
     <div class="table-responsive">
         <table class="table sortable">
             <tr class="bg-black text-white">

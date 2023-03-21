@@ -11,7 +11,7 @@ https://polygon-api-client.readthedocs.io/en/latest/
 
 ##### Commands: 
 ```console
-            python3 -m venv /Volumes/Drive/Code/Python/Finance/polygon
+            python3 -m venv /polygon
             sudo pip3 install virtualenv
             source venv/bin/activate
             pip3 list     # List packages 

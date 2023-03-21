@@ -1,8 +1,8 @@
 /**
-* Template Name: NiceAdmin - v2.4.1
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+* Name: Watchlist Analyzer
+* URL: localhost
+* Author: Carla Heywood
+* Copyright 2023
 */
 (function() {
   "use strict";

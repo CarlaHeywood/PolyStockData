@@ -9,17 +9,63 @@
 
 {% block content %}
 <div class="container"> 
-    <h1> Homepage - Hello World! </h1>
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/dashboard">Dashboard</a></li>
-        <li><a href="/profile">Profile</a></li>
-        <!-- <li><a href="/symbol">Symbol</a></li> -->
-        <!-- <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li> -->
-        <li><a class="bg-warning" href="{% url 'load_polygondata' %}">Update Stock Data (Not Working)</a></li>
-        <li><form method="POST" action="{% url 'load_polygondata_script' %}">{% csrf_token %}
-            <button class="bg-warning" type="submit">Update Stock Data</button></form></li>
-            
-    </ul>
+    <div class="row">
+        <div class="col-3 m-3"> 
+            <h6>WHAT WE DO</h6>
+            <h2>Stock Analyzer for securing the bag. That's on period.</h2>
+            <hr height="5px"style="height:5px;"/>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li>
+                <li><a href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom" 
+                    data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
+                    Update Database</a></li>    
+            </ul>
+        </div>
+        <div class="col">
+            <div class="row">
+                {% for stock in stocks %}
+                <div class="col m-3"> 
+                    <strong style="font-size: 24px;"><p class="mb-0">{{ stock.symbol }}</p></strong>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>Previous Close</td>
+                            <td>{{ stock.closep }}</td>
+                        </tr>
+                        <tr>
+                            <td>Previous Date</td>
+                            <td>{{ stock.previous_date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dividend($)</td>
+                            <td>{{ stock.cash_amount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dividend Freq.</td>
+                            <td>{{ stock.divfrequency }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dividend Payout</td>
+                            <td>{{ stock.pay_date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dividends Decl.</td>
+                            <td>{{ stock.declaration_date }}</td>
+                        </tr>
+                        <tr>
+                            <td>Prev. Dividend</td>
+                            <td>{{ stock.ex_dividend_date }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
