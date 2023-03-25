@@ -5,3 +5,4 @@ django_mysql
 pandas
 requests
 datetime
+dotenv
