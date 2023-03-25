@@ -23,6 +23,16 @@ https://polygon-api-client.readthedocs.io/en/latest/
     (venv)  python3 manage.py runserver
 ```
 
+To create a new migration file:
+```
+  python3 manage.py makemigrations --empty myapp --name myname
+```
+
+
+
+
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/CarlaHeywood/PolyStockData/main/TerminalOutput.png" width="100%">
 </p>
