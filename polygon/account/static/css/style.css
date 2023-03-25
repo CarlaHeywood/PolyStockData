@@ -8,11 +8,7 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-html {
-    position: absolute;
-    width:100%;
-    overflow: hidden;
-}
+
 body {
     width: 100%;
     -webkit-overflow-scrolling: initial;
