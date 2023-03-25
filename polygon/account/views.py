@@ -24,11 +24,11 @@ import subprocess
 
 
 # api key from config 
-from apikey import *
+#from apikey import *
 # OR just assign your API as a string variable
-# polygonAPIkey = 'APIKEYAPIKEY'
+polygonAPIkey = os.getenv('polygonAPIkey')
 
-# keystr = '?apiKey=APIKEYAPIKEY'
+keystr = os.getenv('keystr')
 
 
 # ImproperlyConfigured( django.core.exceptions.ImproperlyConfigured: Requested setting USE_I18N
