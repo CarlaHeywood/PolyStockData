@@ -27,12 +27,16 @@ To create a new migration file:
 ```
   python3 manage.py makemigrations --empty myapp --name myname
 ```
+<br>
 
+##### Screenshot
 <p align="center">
   <img src="https://raw.githubusercontent.com/CarlaHeywood/PolyStockData/main/Screenshot.png" width="100%">
 </p>
 
-#### Terminal output at python manage.py
+<br>
+
+##### Terminal output at python manage.py
 This takes several minutes
 <p align="center">
   <img src="https://raw.githubusercontent.com/CarlaHeywood/PolyStockData/main/TerminalOutput.png" width="100%">
