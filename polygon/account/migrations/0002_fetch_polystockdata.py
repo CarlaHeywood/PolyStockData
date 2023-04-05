@@ -29,7 +29,7 @@ def fetch_ALL_polystockdata(apps, schema_editor):
 
         Delete all then Create new records 
     """
-    # Stock.objects.all().delete()
+    Stock.objects.all().delete()
 
     print("\nFetching Polygon stock data....")
     # print(polygonAPIkey, keystr)  
@@ -154,7 +154,7 @@ def fetch_ALL_polystockdata(apps, schema_editor):
 
 class Migration(migrations.Migration):
     """
-        Custom makemigration command to run fetch_polystockdata function
+        Update database details at migrate, call fetch_ALL_polystockdata
     """
 
     dependencies = [

@@ -6,3 +6,4 @@ pandas
 requests
 datetime
 python-dotenv
+django-mathfilters

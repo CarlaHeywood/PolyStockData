@@ -8,7 +8,42 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-    <div class="container"> 
-        <h1>Profile</h1>
+<div class="container"> 
+    <div class="row">
+        <div class="col">
+            <h1>Profile</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="https://carlaheywood.com/assets/img/CarlaHeywood-AboutMe.jpg" width="150"><span class="font-weight-bold">Carla Heywood</span><span class="text-black-50">carlaheywood.com</span><span>United States</span></div>
+            </div>
+            <div class="col-md-8">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex flex-row align-items-center back"><a href="\"><i class="fa fa-long-arrow-left mr-1 mb-1"></i></a>
+                        </div>
+                        <h6 class="text-right">Account Details</h6>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="first name" value="Carla"></div>
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="last name" value="Heywood"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="Email" value="carla@example.com"></div>
+                        <div class="col-md-6"><input type="text" class="form-control" value="+18001234567" placeholder="Phone number"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="address" value="123 Bikini Bottom"></div>
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="Country" value="CA, USA"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="GitHub" value="https://github.com/CarlaHeywood"></div>
+                        <div class="col-md-6"><input type="text" class="form-control" placeholder="LeetCode" value="https://leetcode.com/CarlaHeywood/"></div>
+                    </div>
+                    <div class="mt-5 text-end"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
+                </div>
+            </div>
+        </div> 
     </div>
+</div>
 {% endblock content %}

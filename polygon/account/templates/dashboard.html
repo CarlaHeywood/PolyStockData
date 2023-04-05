@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% comment %} {% Custom filter for division %} {% endcomment %}
+{% load mathfilters %}
+{% load humanize %}
+
 {% block title %}
     Dashboard
 {% endblock %}
@@ -13,35 +17,50 @@
         <div class="col">
             <h1>Dashboard</h1>
         </div>
-        <div class="col d-flex justify-content-end">
-            <a class="btn btn-primary m-3 me-0" href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
+        <div class="col d-flex align-bottom justify-content-end">
+            {{ watchlist.1.previous_date }}
+            {% comment %} <a class="btn btn-primary m-3 me-0" href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
                 data-bs-placement="bottom" 
                 data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
-                Update Database <i class="bi bi-arrow-clockwise "></i> </a>
+                Update Database <i class="bi bi-arrow-clockwise "></i> </a> {% endcomment %}
         </div>
     </div>
     <div class="table-responsive">
         <table class="table sortable">
-            <tr class="bg-black text-white">
-                <td class="col text-center"><b>Symbol</b></td>
-                <td class="col"><b>Price $</b></td>
-                <td class="col"><b>Previous Date</b></td>
-                <td class="col"><b>Dividend $</b></td>
+            <tr class="bg-black text-white align-bottom">
+                <td class="col-1 text-center"><b>Symbol</b></td>
+                <td class="col-1"><b>Price</b></td>
+                <td class="col-1"><b>Div.$</b></td>
                 <td class="col-1 text-center"><b>Freq.</b></td>
-                <td class="col"><b>Pay Date</b></td>
+                <td class="col-1 text-center"><b>Amount for dividend to buy 1 share</b></td>
+                <td class="col-1 text-center"><b>Amount for dividend to buy 5 shares</b></td>
+                <td class="col-1 text-center"><b>Shares for $1000 dividend</b></td>
+                <td class="col-1 text-center"><b>Amount for $1000 dividend</b></td>
+                <td class="col-1 text-center"><b>Years to Double investment (R*t=72) </b></td>
+                {% comment %} <td class="col"><b>Pay Date</b></td>
                 <td class="col"><b>Declaration</b></td>
-                <td class="col"><b>Ex Date</b></td>
+                <td class="col"><b>Ex Date</b></td> {% endcomment %}
             </tr>
             {% for stock in watchlist %}
             <tr style="border: 1px;">
                 <td class="text-center"><a href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></td>
                 <td>{{ stock.closep }}</td>
-                <td>{{ stock.previous_date }}</td>
                 <td>{{ stock.cash_amount }}</td>
                 <td class="text-center">{{ stock.divfrequency }}</td>
-                <td>{{ stock.pay_date }}</td>
+                <td class="text-end">{{ stock.closep|div:stock.cash_amount|floatformat:2|intcomma }}</td>
+                <td class="text-end">{{ stock.closep|div:stock.cash_amount|mul:5|floatformat:2|intcomma }}</td>
+                {% with annualdiv=stock.cash_amount|mul:stock.divfrequency|floatformat:2 %}
+                <td class="text-center">{{ 1000|div:annualdiv|floatformat:0 }}</td>
+                    {% with shares1000=1000|div:annualdiv|floatformat:0 %}
+                        <td class="text-end">{{ stock.closep|mul:shares1000|floatformat:0|intcomma }}</td>
+                    {% endwith %}
+                {% endwith %}
+                {% with annualdivpercent=stock.cash_amount|div:stock.closep|mul:100|floatformat:2 %}
+                <td class="text-end">{{ 72|div:annualdivpercent|div:100|floatformat:2 }}</td>
+                {% endwith %}
+                {% comment %} <td>{{ stock.pay_date }}</td>
                 <td>{{ stock.declaration_date }}</td>
-                <td>{{ stock.ex_dividend_date }}</td>
+                <td>{{ stock.ex_dividend_date }}</td> {% endcomment %}
             </tr>
             {% endfor %}
         </table>

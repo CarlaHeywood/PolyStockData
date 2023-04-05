@@ -50,7 +50,7 @@ def home(request):
     """
         Render Home page
     """
-    print("Home")
+    # print("Home")
     data = get_allstocks_db()
     stocks = random.sample(sorted(data, key=lambda x: x.symbol), 3)
     # print(stocks)
@@ -60,7 +60,7 @@ def dashboard(request):
     """
         Render Dashboard page
     """
-    print("Dashboard")
+    # print("Dashboard")
     data = get_allstocks_db()
     if data == '':
         print("No Data Found in Database.")
@@ -73,7 +73,7 @@ def profile(request):
         Render Profile page
     """
     users = User()
-    print("Profile")
+    # print("Profile")
     return render(request, 'profile.html', {'users':users})
 
 # def stockdetails(request, symbol=None):

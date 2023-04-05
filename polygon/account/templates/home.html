@@ -9,27 +9,27 @@
 
 {% block content %}
 <div class="container"> 
-    <div class="row">
-        <div class="col-3 m-3"> 
-            <h6>WHAT WE DO</h6>
-            <h2>Stock Analyzer for securing the bag. That's on period.</h2>
-            <hr height="5px"style="height:5px;"/>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li>
-                <li><a href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
-                    data-bs-placement="bottom" 
-                    data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
-                    Update Database</a></li>    
-            </ul>
+    <div class="row m-3">
+        <div class="col-md-3 col-sm-3"> 
+                <h6>WHAT WE DO</h6>
+                <h2>Generate passive income identifying the best investment in your watchlist.</h2>
+                <hr height="5px"style="height:5px;"/>
+                <ul class="mb-5">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li>
+                    <li><a href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
+                        data-bs-placement="bottom" 
+                        data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
+                        Update Database</a></li>    
+                </ul>
         </div>
         <div class="col">
             <div class="row">
                 {% for stock in stocks %}
-                <div class="col m-3"> 
-                    <strong style="font-size: 24px;"><p class="mb-0">{{ stock.symbol }}</p></strong>
+                <div class="col"> 
+                    <strong style="font-size: 24px;"><a class="btn btn-outline-secondary w-100" href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></strong>
                     <table class="table">
                         <tbody>
                         <tr>
