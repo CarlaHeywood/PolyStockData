@@ -41,7 +41,7 @@ def add_stock_db(stock):
         pay_date = stock.pay_date,
         declaration_date = stock.declaration_date,
         ex_dividend_date = stock.ex_dividend_date)
-    print(stock.symbol, "New Stock Added to DB Successfully!")
+    # print(stock.symbol, "New Stock Added to DB Successfully!")
     return stock
 
 def get_allstocks_db():
@@ -56,7 +56,7 @@ def get_stockdetails_db(symbol):
         If not found, show the stock symbol it was looking for 
         Return Stock: type Object
     """
-    print(symbol,": Searching Database...")
+    # print(symbol,": Searching Database...")
     # print("get_stockdetails: ", symbol)
 
     con = sql.connect("db.sqlite3")
@@ -71,7 +71,7 @@ def get_stockdetails_db(symbol):
         return None
 
     # print("Found in DB: \n", result)
-    print("Found in DB")
+    # print("Found in DB")
     stock = Stock(symbol=result[1],
                 closep=result[2],
                 previous_date=result[3],
