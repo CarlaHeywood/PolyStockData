@@ -54,7 +54,7 @@ def home(request):
     data = get_allstocks_db()
     stocks = random.sample(sorted(data, key=lambda x: x.symbol), 3)
     # print(stocks)
-    return render(request, 'home.html', {'stocks':stocks})
+    return render(request, 'home.html', {'stocks':stocks , 'current_year':datetime.now().year})
 
 def dashboard(request):
     """
@@ -66,7 +66,7 @@ def dashboard(request):
         print("No Data Found in Database.")
         data = ['AAPL','UMWC','JEPI', 'PG','O']
     # print(data)
-    return render(request, 'dashboard.html', {'watchlist':data})
+    return render(request, 'dashboard.html', {'watchlist':data , 'current_year':datetime.now().year})
 
 def profile(request):
     """
@@ -74,7 +74,7 @@ def profile(request):
     """
     users = User()
     # print("Profile")
-    return render(request, 'profile.html', {'users':users})
+    return render(request, 'profile.html', {'users':users , 'current_year':datetime.now().year})
 
 # def stockdetails(request, symbol=None):
 #     """
@@ -107,7 +107,7 @@ def stockdetails(request,symbol):
         symbol = request.POST.get('searchsymbol', symbol)
         print("SEARCH: ", symbol)
     
-    return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol)})
+    return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol), 'current_year':datetime.now().year})
 
 # ------- END Render Templates to Pages ---------
 
@@ -121,6 +121,8 @@ def loadpolygondata(request):
         Need to check for duplicates to simply update existing records.
     """
     print("Fetching Polygon stock data....")
+
+    Stock.objects.all().delete()
 
     with requests.Session() as s:
         for ticker in watchlist:
@@ -235,7 +237,7 @@ def loadpolygondata(request):
                             # " | PD: " + str(pay_date) + " | ExD: " + str(ex_dividend_date))
                             print(stock)
         print("Complete!")
-        return render(request, 'home.html')
+        return render(request, 'home.html',{'current_year':datetime.now().year})
 
 def fetch_ALL_polystockdata(request):
     """

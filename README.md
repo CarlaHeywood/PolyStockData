@@ -2,11 +2,10 @@
 Using Polygon.io API to collect data from a specified watchlist. 
 This only provides terminal output and will not be stored anywhere.
 
-Demo Link: <a href="http://44.211.59.253:8000/">http://44.211.59.253:8000/</a>
+<a href="http://44.211.59.253:8000/">http://44.211.59.253:8000/</a>
 
 ```
 $ pip3 install polygon-api-client
-$ python run.py
 ```
 
 https://polygon-api-client.readthedocs.io/en/latest/

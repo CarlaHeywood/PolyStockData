@@ -4,60 +4,59 @@
     Home
 {% endblock %}
 
- {% comment %} Specific CSS goes HERE {% endcomment %}
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<div class="container"> 
-    <div class="row m-3">
-        <div class="col-md-3 col-sm-3"> 
-                <h6>WHAT WE DO</h6>
-                <h2>Generate passive income identifying the best investment in your watchlist.</h2>
-                <hr height="5px"style="height:5px;"/>
-                <ul class="mb-5">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li><a href="/profile">Profile</a></li>
-                    <li><a href="{% url 'stockdetails' symbol='AAPL' %}">Example: Apple Inc.</a></li>
-                    <li><a href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
-                        data-bs-placement="bottom" 
-                        data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
-                        Update Database</a></li>    
-                </ul>
+<div class="min-h-max flex flex-col"> 
+    <div class="mx-6 md:mx-12 my-6 flex flex-col md:flex-row">
+        <div class="md:w-1/4 bg-white p-6 text-black rounded-lg shadow-md mb-6 md:mb-0"> 
+            <h6 class="text-black text-sm font-semibold uppercase">WHAT WE DO</h6>
+            <h2 class="text-black text-2xl font-bold my-4">Generate passive income identifying the best investment in your watchlist.</h2>
+            <hr class="border-black border-t-2 my-4">
+            <ul class="space-y-2 text-black">
+                <li><a href="/" class="hover:underline">Home</a></li>
+                <li><a href="/dashboard" class="hover:underline">Dashboard</a></li>
+                <li><a href="/profile" class="hover:underline">Profile</a></li>
+                <li><a href="{% url 'stockdetails' symbol='AAPL' %}" class="hover:underline">Example: Apple Inc.</a></li>
+                <li><a href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom" 
+                    data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes. Ony needed once a day"
+                    class="hover:underline">Update Database</a></li>    
+            </ul>
         </div>
-        <div class="col">
-            <div class="row">
+        <div class="md:w-3/4 ml-0 md:ml-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for stock in stocks %}
-                <div class="col"> 
-                    <strong style="font-size: 24px;"><a class="btn btn-outline-secondary w-100" href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></strong>
-                    <table class="table">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg p-6 shadow-md"> 
+                    <strong class="text-white text-2xl font-bold"><a class="hover:underline text-white" href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></strong>
+                    <table class="table-auto w-full mt-4 text-white">
                         <tbody>
                         <tr>
-                            <td>Previous Close</td>
+                            <td class="font-semibold">Previous Close</td>
                             <td>{{ stock.closep }}</td>
                         </tr>
                         <tr>
-                            <td>Previous Date</td>
+                            <td class="font-semibold">Previous Date</td>
                             <td>{{ stock.previous_date }}</td>
                         </tr>
                         <tr>
-                            <td>Dividend($)</td>
+                            <td class="font-semibold">Dividend($)</td>
                             <td>{{ stock.cash_amount }}</td>
                         </tr>
                         <tr>
-                            <td>Dividend Freq.</td>
+                            <td class="font-semibold">Dividend Freq.</td>
                             <td>{{ stock.divfrequency }}</td>
                         </tr>
                         <tr>
-                            <td>Dividend Payout</td>
+                            <td class="font-semibold">Dividend Payout</td>
                             <td>{{ stock.pay_date }}</td>
                         </tr>
                         <tr>
-                            <td>Dividends Decl.</td>
+                            <td class="font-semibold">Dividends Decl.</td>
                             <td>{{ stock.declaration_date }}</td>
                         </tr>
                         <tr>
-                            <td>Prev. Dividend</td>
+                            <td class="font-semibold">Prev. Dividend</td>
                             <td>{{ stock.ex_dividend_date }}</td>
                         </tr>
                         </tbody>

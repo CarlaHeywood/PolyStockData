@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-{% comment %} {% Custom filter for division %} {% endcomment %}
 {% load mathfilters %}
 {% load humanize %}
 
@@ -8,61 +7,49 @@
     Dashboard
 {% endblock %}
 
- {% comment %} Specific CSS goes HERE {% endcomment %}
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
-<div class="container"> 
-    <div class="row">
-        <div class="col">
-            <h1>Dashboard</h1>
-        </div>
-        <div class="col d-flex align-bottom justify-content-end">
-            {{ watchlist.1.previous_date }}
-            {% comment %} <a class="btn btn-primary m-3 me-0" href="{% url 'loadpolygondata' %}" data-bs-toggle="tooltip" 
-                data-bs-placement="bottom" 
-                data-bs-title="Delete all stocks in database and fetch most recent details from Polygon API. This will take several minutes.">
-                Update Database <i class="bi bi-arrow-clockwise "></i> </a> {% endcomment %}
-        </div>
+<div class="flex flex-wrap p-3 justify-content-center"> 
+    <div class="w-full text-center p-3">
+        {{ watchlist.1.previous_date }}
     </div>
-    <div class="table-responsive">
-        <table class="table sortable">
-            <tr class="bg-black text-white align-bottom">
-                <td class="col-1 text-center"><b>Symbol</b></td>
-                <td class="col-1"><b>Price</b></td>
-                <td class="col-1"><b>Div.$</b></td>
-                <td class="col-1 text-center"><b>Freq.</b></td>
-                <td class="col-1 text-center"><b>Amount for dividend to buy 1 share</b></td>
-                <td class="col-1 text-center"><b>Amount for dividend to buy 5 shares</b></td>
-                <td class="col-1 text-center"><b>Shares for $1000 dividend</b></td>
-                <td class="col-1 text-center"><b>Amount for $1000 dividend</b></td>
-                <td class="col-1 text-center"><b>Years to Double investment (R*t=72) </b></td>
-                {% comment %} <td class="col"><b>Pay Date</b></td>
-                <td class="col"><b>Declaration</b></td>
-                <td class="col"><b>Ex Date</b></td> {% endcomment %}
-            </tr>
+    <div class="overflow-x-auto m-auto rounded text-center">
+        <table class="table-auto">
+            <thead class="text-white bg-black">
+                <tr>
+                    <th class="px-4 py-2 w-3">Symbol</th>
+                    <th class="px-4 py-2 w-3">Price</th>
+                    <th class="px-4 py-2 w-3">Div.$</th>
+                    <th class="px-4 py-2 w-3">Freq.</th>
+                    <th class="px-4 py-2 w-3">Amount for dividend to buy 1 share</th>
+                    <th class="px-4 py-2 w-3">Amount for dividend to buy 5 shares</th>
+                    <th class="px-4 py-2 w-3">Shares for $1000 dividend</th>
+                    <th class="px-4 py-2 w-3">Amount for $1000 dividend</th>
+                    <th class="px-4 py-2 w-3">Years to Double investment (R*t=72)</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
             {% for stock in watchlist %}
-            <tr style="border: 1px;">
-                <td class="text-center"><a href="{% url 'stockdetails' symbol=stock.symbol %}">{{ stock.symbol }}</a></td>
-                <td>{{ stock.closep }}</td>
-                <td>{{ stock.cash_amount }}</td>
-                <td class="text-center">{{ stock.divfrequency }}</td>
-                <td class="text-end">{{ stock.closep|div:stock.cash_amount|floatformat:2|intcomma }}</td>
-                <td class="text-end">{{ stock.closep|div:stock.cash_amount|mul:5|floatformat:2|intcomma }}</td>
-                {% with annualdiv=stock.cash_amount|mul:stock.divfrequency|floatformat:2 %}
-                <td class="text-center">{{ 1000|div:annualdiv|floatformat:0 }}</td>
-                    {% with shares1000=1000|div:annualdiv|floatformat:0 %}
-                        <td class="text-end">{{ stock.closep|mul:shares1000|floatformat:0|intcomma }}</td>
+                <tr>
+                    <td class="border px-4 py-2 w-3 text-center"><a href="{% url 'stockdetails' symbol=stock.symbol %}" class="text-blue-500 hover:underline">{{ stock.symbol }}</a></td>
+                    <td class="border px-4 py-2 w-3">{{ stock.closep }}</td>
+                    <td class="border px-4 py-2 w-3">{{ stock.cash_amount }}</td>
+                    <td class="border px-4 py-2 w-3 text-center">{{ stock.divfrequency }}</td>
+                    <td class="border px-4 py-2 w-3 text-right">{{ stock.closep|div:stock.cash_amount|floatformat:2|intcomma }}</td>
+                    <td class="border px-4 py-2 w-3 text-right">{{ stock.closep|div:stock.cash_amount|mul:5|floatformat:2|intcomma }}</td>
+                    {% with annualdiv=stock.cash_amount|mul:stock.divfrequency|floatformat:2 %}
+                    <td class="border px-4 py-2 w-3 text-center">{{ 1000|div:annualdiv|floatformat:0 }}</td>
+                        {% with shares1000=1000|div:annualdiv|floatformat:0 %}
+                            <td class="border px-4 py-2 w-3 text-right">{{ stock.closep|mul:shares1000|floatformat:0|intcomma }}</td>
+                        {% endwith %}
                     {% endwith %}
-                {% endwith %}
-                {% with annualdivpercent=stock.cash_amount|div:stock.closep|mul:100|floatformat:2 %}
-                <td class="text-end">{{ 72|div:annualdivpercent|div:100|floatformat:2 }}</td>
-                {% endwith %}
-                {% comment %} <td>{{ stock.pay_date }}</td>
-                <td>{{ stock.declaration_date }}</td>
-                <td>{{ stock.ex_dividend_date }}</td> {% endcomment %}
-            </tr>
+                    {% with annualdivpercent=stock.cash_amount|div:stock.closep|mul:100|floatformat:2 %}
+                    <td class="border px-4 py-2 w-3 text-right">{{ 72|div:annualdivpercent|div:100|floatformat:2 }}</td>
+                    {% endwith %}
+                </tr>
             {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>
