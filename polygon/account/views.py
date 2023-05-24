@@ -100,12 +100,12 @@ def stockdetails(request,symbol):
     """
         Render individual Stock page
     """
-    print("Loading stockdetails...")
-    print(symbol)
+    # print("Loading stockdetails...")
+    # print(symbol)
 
     if request.method == 'POST': # SEARCH
         symbol = request.POST.get('searchsymbol', symbol)
-        print("SEARCH: ", symbol)
+        # print("SEARCH: ", symbol)
     
     return render(request, 'stockdetails.html', {'stock': get_stockdetails_db(symbol), 'current_year':datetime.now().year})
 
@@ -120,7 +120,7 @@ def loadpolygondata(request):
         Creates new Database records by calling polygon API.
         Need to check for duplicates to simply update existing records.
     """
-    print("Fetching Polygon stock data....")
+    # print("Fetching Polygon stock data....")
 
     Stock.objects.all().delete()
 
@@ -130,7 +130,7 @@ def loadpolygondata(request):
             # 
             # STOCK DETAILS V3 
             # 
-            print("StockDetailsV3 Loading... // ", ticker)
+            # print("StockDetailsV3 Loading... // ", ticker)
             url4 = str("https://api.polygon.io/v3/reference/tickers/" + 
                        str(ticker) + "?apiKey=" + polygonAPIkey)
             r4 = s.get(url4, headers=headers, params=params)
@@ -169,12 +169,12 @@ def loadpolygondata(request):
                     description = "No Description "
 
                 # description = stockdetailsv3['results']['description']
-                print("StockDetailsV3 Complete!")
+                # print("StockDetailsV3 Complete!")
 
                 # 
                 # PREVIOUS CLOSE
                 # 
-                print("PreviousClose Loading...")
+                # print("PreviousClose Loading...")
                 url3 = str("https://api.polygon.io/v2/aggs/ticker/" + str(ticker) + 
                            "/prev?adjusted=true&apiKey=" + polygonAPIkey)
                 r3 = s.get(url3, headers=headers, params=params)
@@ -199,7 +199,7 @@ def loadpolygondata(request):
                     # 
                     # DIVIDENDS
                     # 
-                    print("Dividends Loading...")
+                    # print("Dividends Loading...")
                     url2 = str("https://api.polygon.io/v3/reference/dividends?ticker=" + 
                                str(ticker) + "&limit=1&apiKey=" + polygonAPIkey)
                     r2 = s.get(url2, headers=headers, params=params)
@@ -216,9 +216,9 @@ def loadpolygondata(request):
                         time.sleep(15)
 
                     if r2.status_code == 200:
-                        print("Dividends Complete!")
+                        # print("Dividends Complete!")
                         for stockd in dividends['results']: # Shows last 10 dividend payouts
-                            stock = Stock(symbol = stockd['ticker'],
+                            stock = Stock.objects.create(symbol = stockd['ticker'],
                                                 stock_name = stockdetailsv3['results']['name'],
                                                 stock_type = stockdetailsv3['results']['type'],
                                                 weburl = weburl,
@@ -235,8 +235,8 @@ def loadpolygondata(request):
                             # print(str(symbol) + ": " + str(closep) + " |
                             # D: " + str(cash_amount) + " | F: " + str(divfrequency) +
                             # " | PD: " + str(pay_date) + " | ExD: " + str(ex_dividend_date))
-                            print(stock)
-        print("Complete!")
+                            # print(stock)
+        # print("Complete!")
         return render(request, 'home.html',{'current_year':datetime.now().year})
 
 def fetch_ALL_polystockdata(request):
