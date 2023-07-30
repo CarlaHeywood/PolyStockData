@@ -21,13 +21,13 @@ from .models import *
 
 import subprocess
 
-
+from dotenv import load_dotenv
+load_dotenv()
 
 # api key from config 
 # from apikey import *
 # OR just assign your API as a string variable
 polygonAPIkey = os.getenv('polygonAPIkey')
-
 keystr = os.getenv('keystr')
 
 
