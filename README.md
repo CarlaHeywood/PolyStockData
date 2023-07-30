@@ -2,7 +2,7 @@
 Using Polygon.io API to collect data from a specified watchlist. 
 This only provides terminal output and will not be stored anywhere.
 
-<a href="http://44.211.59.253:8000/">Demo Link</a>
+<a href="http://3.84.164.56:5003/">Demo Link</a>
 
 ```
 $ pip3 install polygon-api-client
