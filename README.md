@@ -1,6 +1,6 @@
 # InvestWise.py
-Using Polygon.io API to collect data from a specified watchlist. 
-This only provides terminal output and will not be stored anywhere.
+Personal stock analyzer web app to identify the best investment in your watchlist.
+Using Polygon.io API to collect stock data from previous close date.
 
 <a href="http://3.84.164.56:5003/">Demo Link</a>
 

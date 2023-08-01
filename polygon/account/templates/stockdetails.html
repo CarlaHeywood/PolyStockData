@@ -61,7 +61,22 @@
         </div>
         <div class="flex items-center justify-center bg-white h-40 sm:h-30 w-40 sm:h-30">
             <a href="{{ stock.weburl }}" target="_blank">
-                <img class="h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"' alt="Logo">
+                {% comment %} <img class="h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"' alt="Logo"> {% endcomment %}
+                {% if not stock.brandlogo and not stock.brandicon%}
+                      {% comment %} <img class="h-32 w-auto sm:h-10" src="{% static '/static/img/favicon.svg' %}" alt="Logo"> {% endcomment %}
+                      {% comment %} <img class="h-32 w-auto sm:h-10" src="{% static 'img/favicon.svg' %}" type="image/svg+xml" alt="Logo"> {% endcomment %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                {% else %}
+                  {% if stock.brandlogo %}
+                      <img class="h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" alt="Logo">
+                  {% elif stock.brandicon %}
+                      <img class="h-32 w-auto sm:h-10" src="{{ stock.brandicon }}" alt="Logo">
+                  {% else %}
+                    {% load static %}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                      <img class="h-32 w-auto sm:h-10" src="{% static 'svg/favicon' %}" type="image/svg+xml" alt="Logo"> 
+                  {% endif %}           
+                {% endif %}
             </a>
         </div>
       </div>
