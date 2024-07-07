@@ -1,0 +1,25 @@
+FROM python:3-alpine
+
+RUN pip3 install --upgrade pip
+
+RUN mkdir -p /InvestWise
+
+# RUN pip3 install virtualenv
+
+WORKDIR /InvestWise
+
+# RUN virtualenv venv
+# RUN source venv/bin/activate 
+
+COPY requirements.txt /InvestWise
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+ENV PORT=8000
+EXPOSE 8000
+
+# COPY ./sh
+# ENTRYPOINT ["sh", ""]
+
+CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000"]

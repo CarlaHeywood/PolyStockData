@@ -1,5 +1,5 @@
 polygon-api-client
-django
+Django>=3.0,<4.0
 django_table_sort
 django_mysql
 pandas
@@ -7,3 +7,8 @@ requests
 datetime
 python-dotenv
 django-mathfilters
+djangorestframework
+markdown   
+django-filter
+django-cors-headers
+virtualenv

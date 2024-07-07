@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load mathfilters %}
+{% load humanize %}
+{% load years_to_double %}
+
+{% block title %}
+    Dashboard | InvestWise.py
+{% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="flex flex-wrap p-3 justify-content-center"> 
+    <div class="w-full text-center p-3">
+        {{ watchlist.1.previous_date }}
+    </div>
+    <div class="overflow-x-auto m-auto text-center">
+        <table class="table-auto">
+            <thead class="rounded-lg m-3 bg-gray-200">
+                <tr>
+                    <th class="px-4 py-2 w-auto">Symbol/Name</th>
+                    <th class="px-4 py-2 w-auto">Last Price</th>
+                    <th class="px-4 py-2 w-64">Dividend per Share &amp; Annual Yield</th>
+                    <th class="px-4 py-2 w-auto">Investment needed for Dividends to buy 1 share</th>
+                    <th class="px-4 py-2 w-64">Investment needed for $1000 dividend</th>
+                    <th class="px-4 py-2 w-48">Years to Double</th>
+                    <th class="px-4 py-2 w-3">Payout Frequency</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700">
+            {% for stock in watchlist %}
+                <tr>
+                    <td class="border px-4 py-2 w-auto text-left hover:underline"><a href="{% url 'stockdetails' symbol=stock.symbol %}">
+                        <div class="flex flex-wrap gap-3 items-center">
+                            {% if stock.brandicon != "No Icon Available" %}
+                                <img class="rounded-full h-32 w-auto sm:h-10" src="{{ stock.brandicon }}" alt="Icon">
+                            {% elif stock.brandlogo != "No Logo Available" %}
+                                <img class="rounded-full h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" alt="Logo">
+                            {% else %}
+                                <div class="rounded-full bg-current h-100 w-auto sm:h-10 p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                </div>
+                            {% endif %}
+                            <div class="">
+                                <strong>{{ stock.stock_name|truncatechars:15 }}</strong><br>
+                                {{ stock.symbol }}
+                            </div>
+                        </div>
+                    </a></td>
+                    <td class="border px-4 py-2 w-auto">${{ stock.closep }}</td>
+                    <td class="border px-4 py-2 w-auto">${{ stock.cash_amount }} &lpar;{{stock.cash_amount|div:stock.closep|mul:100|floatformat:2}}%&rpar;</td>
+                    
+                    {% comment %} Invesment needed for Dividends to buy 1 share {% endcomment %}
+                    <td class="border px-4 py-2 w-64 text-center">${{ stock.closep|mul:stock.closep|div:stock.cash_amount|floatformat:2|intcomma }} &lpar;{{ stock.closep|div:stock.cash_amount|floatformat:0|intcomma }}&rpar;</td>
+                    
+                    {% comment %} Investment needed for $1000 dividend {% endcomment %}
+                    <td class="border px-4 py-2 w-64 text-center">${{ 1000|div:stock.cash_amount|mul:stock.closep|floatformat:0|intcomma }} &lpar;{{ 1000|div:stock.cash_amount|floatformat:0|intcomma }}&rpar;</td>
+                    
+                    {% comment %} Years to Double {% endcomment %}
+                    <td class="border px-4 py-2 w-48">~ {{ stock|years_to_double }} yrs</td>
+
+                    <td class="border px-4 py-2 w-3 text-center">{{ stock.divfrequency }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ stock.symbol }} Details | InvestWise.py
+{% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="flex flex-wrap pt-3"> 
+    <div class="w-full md:w-1/2 lg:w-1/3 p-4">
+        <div class="flex items-center justify-between bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg p-4">
+            <div>
+                <button class="px-4 py-2 bg-black text-white rounded" onclick="history.back()">Back</button>
+            </div>
+            <div>
+                <span class="text-4xl font-bold">{{ stock.symbol }}</span>
+            </div>
+        </div>
+        <div class="mt-4 py-3 bg-white rounded-lg shadow-lg">
+            <table class="table-auto w-full">
+                <tbody class="text-gray-700">
+                  <tr>
+                    <td class="px-4 py-2">Previous Close</td>
+                    <td class="px-4 py-2">{{ stock.closep }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Previous Date</td>
+                    <td class="px-4 py-2">{{ stock.previous_date }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Dividend($)</td>
+                    <td class="px-4 py-2">{{ stock.cash_amount }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Dividend Freq.</td>
+                    <td class="px-4 py-2">{{ stock.divfrequency }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Dividend Payout</td>
+                    <td class="px-4 py-2">{{ stock.pay_date }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Dividends Decl.</td>
+                    <td class="px-4 py-2">{{ stock.declaration_date }}</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2">Prev. Dividend</td>
+                    <td class="px-4 py-2">{{ stock.ex_dividend_date }}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 lg:w-2/3 p-4">
+    <div class="bg-white rounded-lg shadow-lg p-4 content-stretch text-gray-700">
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-bold">
+            {{ stock.stock_name }}
+        </div>
+        <div class="flex items-center justify-center bg-white h-40 sm:h-30 w-40 sm:h-30">
+            <a href="{{ stock.weburl }}" target="_blank">
+                {% comment %} <img class="h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" onerror='this.onerror = null; this.src="{{ stock.brandicon }}"' alt="Logo"> {% endcomment %}
+                {% if not stock.brandlogo and not stock.brandicon%}
+                      {% comment %} <img class="h-32 w-auto sm:h-10" src="{% static '/static/img/favicon.svg' %}" alt="Logo"> {% endcomment %}
+                      {% comment %} <img class="h-32 w-auto sm:h-10" src="{% static 'img/favicon.svg' %}" type="image/svg+xml" alt="Logo"> {% endcomment %}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2463eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                {% else %}
+                  {% if stock.brandlogo != "No Logo Available" %}
+                      <img class="h-32 w-auto sm:h-10" src="{{ stock.brandlogo }}" alt="Logo">
+                  {% elif stock.brandicon != "No Icon Available" %}
+                      <img class="h-32 w-auto sm:h-10" src="{{ stock.brandicon }}" alt="Icon">
+                  {% else %}
+                    {% load static %}
+                    <div class="rounded-full bg-current h-100 w-100 sm:h-10 p-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    </div>
+                  {% endif %}           
+                {% endif %}
+            </a>
+        </div>
+      </div>
+      {{ stock.description }}
+    </div>
+</div>
+</div>
+{% endblock content %}
