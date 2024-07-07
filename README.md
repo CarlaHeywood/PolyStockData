@@ -42,3 +42,17 @@ This takes several minutes
 <p align="center">
   <img src="https://raw.githubusercontent.com/CarlaHeywood/PolyStockData/main/TerminalOutput.png" width="100%">
 </p>
+
+<!-- Inspiration -->
+<!-- 
+https://www.tradingview.com/widget/advanced-chart/
+https://ui.aceternity.com/components/infinite-moving-cards
+https://ui.aceternity.com/components/background-boxes
+
+https://www.cnn.com/markets
+https://nasdaq.com/
+https://crypo-nextjs.netlify.app/
+https://jiade.dexignlab.com/php/demo/coin-details.php
+https://finlab-python-django-crypto-trading-ui-admin-dashboard-template.dexignlab.com/banking/
+https://www.investopedia.com/stocks-4427785
+ -->
